@@ -35,8 +35,6 @@ yarn add ngx-autofocus
 
 This library is compatible with Angular 19.2.0 and above.
 
-For Angular 17.x-19.1.x, you may need to adjust the peer dependencies in package.json.
-
 ## 🚀 Quick Start
 
 ### Import the directive
