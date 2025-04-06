@@ -31,6 +31,14 @@ or
 yarn add ngx-autofocus
 ```
 
+### Compatibility
+
+| NgxAutofocus version | Angular version |
+|---------------------|----------------|
+| 1.x                 | 12.x - 14.x    |
+| 2.x                 | 15.x - 16.x    |
+| 3.x                 | 17.x+          |
+
 ## 🚀 Quick Start
 
 ### Import the directive
