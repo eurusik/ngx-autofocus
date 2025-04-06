@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <b>Intelligent autofocus for Angular that works everywhere with special iOS support!</b>
+  <b>Intelligent autofocus for Angular that works everywhere — even on iOS!</b>
 </p>
 
 <p align="center">
@@ -37,7 +37,7 @@ yarn add @eurusik/ngx-autofocus
 
 ### Compatibility
 
-This library is compatible with Angular 18.0.0 and above. It uses modern Angular features including the new Input API introduced in Angular 18.
+This library is compatible with Angular 18.0.0 and above. It uses modern Angular features including the standalone components architecture and the new Input API introduced in Angular 18.
 
 ## 🚀 Quick Start
 
@@ -198,11 +198,15 @@ The demo includes a special iOS simulation mode that demonstrates how the iOS ha
 
 ## 🧪 Testing
 
-The directive has comprehensive test coverage:
+The directive has comprehensive test coverage to ensure reliability across different scenarios:
 
 ```bash
 npm test
 ```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please create an issue or pull request on GitHub: https://github.com/eurusik/ngx-autofocus
 
 ## 📄 License
 
