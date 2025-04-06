@@ -359,24 +359,25 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
     .tabs {
       display: flex;
       margin-bottom: 30px;
-      border-bottom: 2px solid #eaeaea;
-      gap: 10px;
-      position: relative;
+      border-bottom: 1px solid #e0e0e0;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      padding-bottom: 5px;
     }
 
     .tabs button {
-      padding: 12px 20px;
+      padding: 10px 15px;
       background: none;
       border: none;
-      cursor: pointer;
       border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-size: 14px;
       font-weight: 500;
-      transition: all 0.2s ease;
       color: #666;
-      border-radius: 4px 4px 0 0;
-      position: relative;
-      z-index: 1;
-      margin-bottom: -2px;
+      transition: all 0.2s ease;
+      flex: 0 0 auto;
     }
 
     .tabs button:hover {
@@ -713,6 +714,60 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+    }
+    
+    /* Media queries for responsive design */
+    @media (max-width: 768px) {
+      .tabs {
+        position: relative;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        padding-bottom: 5px;
+      }
+      
+      .tabs button {
+        flex: 0 0 auto;
+      }
+      
+      .tabs::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 30px;
+        background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,1));
+        pointer-events: none;
+        z-index: 1;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 15px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      
+      .tabs button {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+      
+      .form-group {
+        margin-bottom: 15px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      h2 {
+        font-size: 20px;
+      }
     }
 
     .demo-container {
