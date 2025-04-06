@@ -3,6 +3,5 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist/demo/browser",
   "installCommand": "npm install",
-  "devCommand": "npm run start",
-  "devPort": 4200
+  "devCommand": "npm run start"
 }
