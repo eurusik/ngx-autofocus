@@ -17,7 +17,7 @@ import { NgxAutofocusDirective } from 'ngx-autofocus';
         <div class="code-examples">
           <h3>How to use in your project:</h3>
           <pre><code>// Import the directive
-import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
+import &#123; NgxAutofocusDirective &#125; from '&#64;eurusik/ngx-autofocus';
 
 // Add to your component imports
 &#64;Component(&#123;
@@ -952,8 +952,6 @@ export class AppComponent implements OnInit {
   // Dynamic demo fields
   dynamicInputs: Array<{value: string}> = [];
 
-  // iOS demo fields are now handled by the IosDemoComponent
-
   // Button click demo fields
   showInput = false;
   inputHelper: HTMLInputElement | null = null;
@@ -983,8 +981,6 @@ export class AppComponent implements OnInit {
   clearDynamicInputs(): void {
     this.dynamicInputs = [];
   }
-
-  // iOS simulation is now handled by the IosDemoComponent
 
   showDefaultHandlerDemo(): void {
     this.defaultInput = '';
