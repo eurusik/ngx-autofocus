@@ -1,9 +1,9 @@
 # 🔍 NgxAutofocus
 
 <p align="center">
-  <img src="https://img.shields.io/npm/v/ngx-autofocus.svg" alt="npm version">
-  <img src="https://img.shields.io/npm/dm/ngx-autofocus.svg" alt="npm downloads">
-  <img src="https://img.shields.io/github/license/yourusername/ngx-autofocus.svg" alt="license">
+  <img src="https://img.shields.io/npm/v/@eurusik/ngx-autofocus.svg" alt="npm version">
+  <img src="https://img.shields.io/npm/dm/@eurusik/ngx-autofocus.svg" alt="npm downloads">
+  <img src="https://img.shields.io/github/license/eurusik/ngx-autofocus.svg" alt="license">
 </p>
 
 <p align="center">
@@ -22,13 +22,13 @@
 ## 📦 Installation
 
 ```bash
-npm install ngx-autofocus --save
+npm install @eurusik/ngx-autofocus --save
 ```
 
 or
 
 ```bash
-yarn add ngx-autofocus
+yarn add @eurusik/ngx-autofocus
 ```
 
 ### Compatibility
@@ -40,7 +40,7 @@ This library is compatible with Angular 18.0.0 and above. It uses modern Angular
 ### Import the directive
 
 ```typescript
-import { NgxAutofocusDirective } from 'ngx-autofocus';
+import { NgxAutofocusDirective } from '@eurusik/ngx-autofocus';
 
 @Component({
   // ...
@@ -75,7 +75,7 @@ The default handler provides smart focus with animation awareness:
 - Runs outside Angular zone for better performance
 
 ```typescript
-import { NGX_AUTOFOCUS_HANDLER, NgxDefaultAutofocusHandler } from 'ngx-autofocus';
+import { NGX_AUTOFOCUS_HANDLER, NgxDefaultAutofocusHandler } from '@eurusik/ngx-autofocus';
 
 @Component({
   // ...
@@ -104,7 +104,7 @@ This handler is automatically used when an iOS device is detected.
 Simplified handler for immediate focus without delays:
 
 ```typescript
-import { NGX_AUTOFOCUS_HANDLER, NgxSynchronousAutofocusHandler } from 'ngx-autofocus';
+import { NGX_AUTOFOCUS_HANDLER, NgxSynchronousAutofocusHandler } from '@eurusik/ngx-autofocus';
 
 @Component({
   // ...
@@ -122,7 +122,7 @@ import { NGX_AUTOFOCUS_HANDLER, NgxSynchronousAutofocusHandler } from 'ngx-autof
 Configure focus behavior with custom options:
 
 ```typescript
-import { NGX_AUTOFOCUS_OPTIONS } from 'ngx-autofocus';
+import { NGX_AUTOFOCUS_OPTIONS } from '@eurusik/ngx-autofocus';
 
 @Component({
   // ...
@@ -145,7 +145,7 @@ You can create your own focus handler by extending the `AbstractNgxAutofocusHand
 
 ```typescript
 import { ElementRef } from '@angular/core';
-import { AbstractNgxAutofocusHandler, NgxAutofocusOptions } from 'ngx-autofocus';
+import { AbstractNgxAutofocusHandler, NgxAutofocusOptions } from '@eurusik/ngx-autofocus';
 
 export class MyCustomHandler extends AbstractNgxAutofocusHandler {
   constructor(
@@ -168,7 +168,7 @@ export class MyCustomHandler extends AbstractNgxAutofocusHandler {
 The project includes a demonstration application showcasing various NgxAutofocus scenarios:
 
 ```bash
-git clone https://github.com/yourusername/ngx-autofocus.git
+git clone https://github.com/eurusik/ngx-autofocus.git
 cd ngx-autofocus
 npm install
 npm start
