@@ -1,6 +1,4 @@
 import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { isIOS } from 'ngx-autofocus';
 import { IosDemoComponent } from './ios-demo/ios-demo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,10 +11,10 @@ import { NgxAutofocusDirective } from 'ngx-autofocus';
   template: `
     <div class="container">
       <h1>NgxAutofocus Demo</h1>
-      
+
       <div class="intro">
         <p>This demo showcases the various features of the <code>ngxAutofocus</code> directive. Select a tab below to see different usage scenarios.</p>
-        
+
         <div class="code-examples">
           <h3>How to use in your project:</h3>
           <pre><code>// Import the directive
@@ -33,10 +31,10 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
 &lt;input [ngxAutofocus]="condition"&gt;   // Conditional focus</code></pre>
         </div>
       </div>
-      
+
       <div class="tabs">
-        <button 
-          *ngFor="let tab of tabs" 
+        <button
+          *ngFor="let tab of tabs"
           [class.active]="activeTab === tab.id"
           (click)="activeTab = tab.id"
         >
@@ -58,19 +56,19 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
           <label for="name">Name (autofocused):</label>
           <input id="name" type="text" ngxAutofocus [(ngModel)]="name">
         </div>
-        
+
         <div class="form-group">
           <label for="email">Email:</label>
           <input id="email" type="email" [(ngModel)]="email">
         </div>
-        
+
         <div class="form-group checkbox-group">
           <div class="checkbox-container">
             <input type="checkbox" id="enable-focus" [(ngModel)]="enableFocus">
             <label for="enable-focus">Enable conditional autofocus:</label>
           </div>
         </div>
-        
+
         <div class="form-group">
           <label for="message">Message (conditional autofocus):</label>
           <textarea id="message" [ngxAutofocus]="enableFocus" [(ngModel)]="message"></textarea>
@@ -127,9 +125,9 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
         <div class="dynamic-container">
           <div class="form-group" *ngFor="let input of dynamicInputs; let i = index">
             <label for="dynamic-{{i}}">Input {{i + 1}}:</label>
-            <input 
-              id="dynamic-{{i}}" 
-              type="text" 
+            <input
+              id="dynamic-{{i}}"
+              type="text"
               [ngxAutofocus]="i === dynamicInputs.length - 1"
               [(ngModel)]="input.value">
           </div>
@@ -153,7 +151,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
             <h3>Default Handler</h3>
             <p>Uses a small delay for better compatibility with animations</p>
             <button (click)="showDefaultHandlerDemo()" class="demo-btn">Show Default Handler Demo</button>
-            
+
             <div *ngIf="showDefaultDemo" class="demo-container">
               <div class="loading-overlay" *ngIf="defaultFocusTime === 0">
                 <div class="loading-spinner"></div>
@@ -172,12 +170,12 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
               </div>
             </div>
           </div>
-          
+
           <div class="handler-column">
             <h3>Synchronous Handler</h3>
             <p>Immediately focuses without any delay</p>
             <button (click)="showSyncHandlerDemo()" class="demo-btn">Show Synchronous Handler Demo</button>
-            
+
             <div *ngIf="showSyncDemo" class="demo-container">
               <div class="loading-overlay" *ngIf="syncFocusTime === 0">
                 <div class="loading-spinner fast-spinner"></div>
@@ -197,7 +195,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
             </div>
           </div>
         </div>
-        
+
         <div class="handler-info">
           <h3>When to use the Synchronous Handler:</h3>
           <ul>
@@ -208,7 +206,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
           <p><strong>Note:</strong> The synchronous handler is provided as a separate implementation that you can use by configuring the NgxAutofocusModule.</p>
         </div>
       </div>
-      
+
       <!-- iOS Demo -->
       <div class="tab-content" *ngIf="activeTab === 'ios'">
         <h2>iOS Support</h2>
@@ -221,9 +219,37 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
             <li>This solves common iOS issues like keyboard not appearing or focus not working properly</li>
           </ul>
         </div>
-        
+
         <!-- Use the dedicated iOS demo component -->
         <app-ios-demo></app-ios-demo>
+      </div>
+
+      <!-- Button Click Demo -->
+      <div class="tab-content" *ngIf="activeTab === 'button-click'">
+        <h2>Button Click Demo</h2>
+        <div class="instructions">
+          <p>This tab demonstrates how to show an input field with autofocus after clicking a button:</p>
+          <ul>
+            <li>Click the "Show Input Field" button to display an input field</li>
+            <li>The input field will automatically receive focus as soon as it appears</li>
+            <li>This is useful for forms that are conditionally displayed based on user interaction</li>
+          </ul>
+        </div>
+
+        <div class="form-group">
+          <button (click)="showInput = !showInput">
+            {{ showInput ? 'Hide Input Field' : 'Show Input Field' }}
+          </button>
+        </div>
+
+        <div class="form-group" *ngIf="showInput">
+          <label for="button-click-input">Input field:</label>
+          <input 
+            id="button-click-input" 
+            type="text" 
+            ngxAutofocus 
+            placeholder="This input received focus automatically">
+        </div>
       </div>
 
       <div class="actions">
@@ -241,7 +267,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       width: 100%;
       overflow-x: hidden;
     }
-    
+
     .container {
       max-width: 800px;
       width: 100%;
@@ -255,7 +281,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       box-sizing: border-box;
       overflow-x: hidden;
     }
-    
+
     .instructions {
       background-color: #f0f7ff;
       border-left: 4px solid #4285f4;
@@ -264,21 +290,21 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(66, 133, 244, 0.1);
     }
-    
+
     .instructions ul {
       margin-top: 10px;
       padding-left: 20px;
     }
-    
+
     .instructions li {
       margin-bottom: 5px;
     }
-    
+
     .code-examples {
       margin-top: 20px;
       margin-bottom: 20px;
     }
-    
+
     .code-examples pre {
       background-color: #282c34;
       color: #abb2bf;
@@ -286,13 +312,13 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       border-radius: 4px;
       overflow-x: auto;
     }
-    
+
     .code-examples code {
       font-family: 'Consolas', 'Monaco', monospace;
       font-size: 14px;
       line-height: 1.5;
     }
-    
+
     h1 {
       color: #333;
       font-size: 32px;
@@ -300,7 +326,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       text-align: center;
       font-weight: 600;
     }
-    
+
     h2 {
       color: #444;
       font-size: 24px;
@@ -309,7 +335,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       border-bottom: 1px solid #eaeaea;
       padding-bottom: 10px;
     }
-    
+
     h3 {
       color: #555;
       font-size: 20px;
@@ -337,7 +363,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       gap: 10px;
       position: relative;
     }
-    
+
     .tabs button {
       padding: 12px 20px;
       background: none;
@@ -352,12 +378,12 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       z-index: 1;
       margin-bottom: -2px;
     }
-    
+
     .tabs button:hover {
       background-color: #f5f5f5;
       color: #333;
     }
-    
+
     .tabs button.active {
       border-bottom: 2px solid #4285f4;
       color: #4285f4;
@@ -371,7 +397,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       margin-bottom: 20px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
-    
+
     .container {
       max-width: 800px;
       border: 1px solid #eaeaea;
@@ -379,14 +405,14 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       box-sizing: border-box;
       overflow-x: hidden;
     }
-    
+
     .form-group {
       margin-bottom: 25px;
       position: relative;
       width: 100%;
       box-sizing: border-box;
     }
-    
+
     .form-group label {
       display: block;
       margin-bottom: 10px;
@@ -394,7 +420,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       color: #333;
       font-size: 16px;
     }
-    
+
     input, textarea {
       width: 100%;
       padding: 14px;
@@ -406,45 +432,45 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
       box-sizing: border-box;
     }
-    
+
     input:focus, textarea:focus {
       outline: none;
       border-color: #4285f4;
       box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
     }
-    
+
     input:hover, textarea:hover {
       border-color: #bbb;
     }
-    
+
     input[type="checkbox"] {
       margin-right: 8px;
       width: auto;
       outline: none;
     }
-    
+
     input[type="checkbox"]:focus {
       outline: none;
       box-shadow: none;
     }
-    
+
     .checkbox-group {
       display: flex;
       align-items: center;
     }
-    
+
     .checkbox-container {
       display: flex;
       align-items: center;
       justify-content: flex-start;
       width: 100%;
     }
-    
+
     .checkbox-container label {
       margin-bottom: 0;
       margin-left: 8px;
     }
-    
+
     textarea {
       height: 100px;
       resize: vertical;
@@ -491,7 +517,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       border-radius: 4px;
       min-height: 100px;
     }
-    
+
     button:not(.tabs button) {
       padding: 12px 20px;
       background-color: #4285f4;
@@ -506,26 +532,26 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       transition: all 0.2s ease;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    
+
     button:not(.tabs button):hover {
       background-color: #3367d6;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
       transform: translateY(-1px);
     }
-    
+
     button:not(.tabs button):active {
       transform: translateY(1px);
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
-    
+
     button.danger {
       background-color: #ea4335;
     }
-    
+
     button.danger:hover {
       background-color: #d33426;
     }
-    
+
     .reset-btn {
       display: block;
       margin: 30px auto;
@@ -534,7 +560,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       border: none;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    
+
     .reset-btn:hover {
       background-color: #d33426;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -544,7 +570,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       text-align: center;
       margin-top: 30px;
     }
-    
+
     .dynamic-container {
       margin-top: 25px;
       padding: 20px;
@@ -552,7 +578,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       border-radius: 8px;
       border: 1px solid #eaeaea;
     }
-    
+
     .platform-info {
       display: flex;
       justify-content: space-between;
@@ -563,16 +589,16 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       margin-bottom: 25px;
       border: 1px solid #eaeaea;
     }
-    
+
     .highlight {
       color: #4285f4;
       font-weight: bold;
     }
-    
+
     .ios-simulation {
       text-align: right;
     }
-    
+
     .ios-toggle-btn {
       background-color: #f1f1f1;
       color: #333;
@@ -580,11 +606,11 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       padding: 8px 15px;
       font-size: 14px;
     }
-    
+
     .ios-toggle-btn:hover {
       background-color: #e5e5e5;
     }
-    
+
     .handler-info {
       margin-top: 30px;
       background-color: #f0f7ff;
@@ -592,23 +618,23 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       border-radius: 8px;
       border-left: 4px solid #4285f4;
     }
-    
+
     .handler-info h3 {
       margin-top: 0;
       color: #4285f4;
     }
-    
+
     .handler-info ul {
       margin-top: 10px;
       padding-left: 20px;
     }
-    
+
     .handler-comparison {
       display: flex;
       gap: 20px;
       margin: 30px 0;
     }
-    
+
     .handler-column {
       flex: 1;
       background-color: #f9f9f9;
@@ -616,35 +642,35 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       padding: 20px;
       border: 1px solid #eaeaea;
     }
-    
+
     .handler-column h3 {
       margin-top: 0;
       color: #4285f4;
       border-bottom: 1px solid #eaeaea;
       padding-bottom: 10px;
     }
-    
+
     .demo-btn {
       width: 100%;
       margin-top: 15px;
       background-color: #4285f4;
     }
-    
 
-    
+
+
     .timer {
       font-size: 14px;
       color: #666;
       margin-top: 8px;
       font-weight: 500;
     }
-    
+
     .delay-info {
       font-size: 13px;
       margin-top: 5px;
       font-style: italic;
     }
-    
+
     .loading-overlay {
       position: absolute;
       top: 0;
@@ -659,7 +685,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       z-index: 10;
       border-radius: 6px;
     }
-    
+
     .loading-spinner {
       width: 40px;
       height: 40px;
@@ -668,27 +694,27 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-    
+
     .fast-spinner {
       border-top: 4px solid #34a853;
       animation: spin 0.3s linear infinite;
     }
-    
+
     .loading-text {
       margin-top: 10px;
       font-weight: 500;
     }
-    
+
     .waiting {
       color: #4285f4;
       font-weight: 500;
     }
-    
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-    
+
     .demo-container {
       position: relative;
       margin-top: 20px;
@@ -707,26 +733,30 @@ export class AppComponent implements OnInit {
   email = '';
   message = '';
   enableFocus = false;
-  
+
   // Tab navigation
   tabs = [
     { id: 'basic', name: 'Basic Usage' },
     { id: 'conditional', name: 'Conditional' },
     { id: 'dynamic', name: 'Dynamic Content' },
     { id: 'ios', name: 'iOS Support' },
-    { id: 'sync', name: 'Synchronous Handler' }
+    { id: 'sync', name: 'Synchronous Handler' },
+    { id: 'button-click', name: 'Button Click' }
   ];
   activeTab = 'basic';
-  
+
   // Conditional demo fields
   conditionalFocus = false;
   conditionalInput = '';
-  
+
   // Dynamic demo fields
   dynamicInputs: Array<{value: string}> = [];
-  
+
   // iOS demo fields are now handled by the IosDemoComponent
-  
+
+  // Button click demo fields
+  showInput = false;
+
   // Synchronous handler demo fields
   defaultInput = '';
   syncInput = '';
@@ -734,33 +764,33 @@ export class AppComponent implements OnInit {
   showSyncDemo = false;
   defaultFocusTime = 0;
   syncFocusTime = 0;
-  
+
   ngOnInit(): void {
   }
-  
+
   toggleConditionalFocus(): void {
     this.conditionalFocus = !this.conditionalFocus;
   }
-  
+
   addDynamicInput(): void {
     this.dynamicInputs.push({ value: '' });
   }
-  
+
   clearDynamicInputs(): void {
     this.dynamicInputs = [];
   }
-  
+
   // iOS simulation is now handled by the IosDemoComponent
-  
+
   showDefaultHandlerDemo(): void {
     this.defaultInput = '';
     this.defaultFocusTime = 0;
     this.showDefaultDemo = false;
-    
+
     setTimeout(() => {
       const startTime = performance.now();
       this.showDefaultDemo = true;
-      
+
       setTimeout(() => {
         setTimeout(() => {
           const inputElement = document.getElementById('default-input') as HTMLInputElement;
@@ -772,16 +802,16 @@ export class AppComponent implements OnInit {
       }, 500);
     }, 100);
   }
-  
+
   showSyncHandlerDemo(): void {
     this.syncInput = '';
     this.syncFocusTime = 0;
     this.showSyncDemo = false;
-    
+
     setTimeout(() => {
       const startTime = performance.now();
       this.showSyncDemo = true;
-      
+
       setTimeout(() => {
         const inputElement = document.getElementById('sync-input') as HTMLInputElement;
         if (inputElement) {
@@ -797,19 +827,21 @@ export class AppComponent implements OnInit {
     this.email = '';
     this.message = '';
     this.enableFocus = false;
-    
+
     this.conditionalFocus = false;
     this.conditionalInput = '';
-    
+
     this.dynamicInputs = [];
-    
+
     this.defaultInput = '';
     this.syncInput = '';
     this.showDefaultDemo = false;
     this.showSyncDemo = false;
     this.defaultFocusTime = 0;
     this.syncFocusTime = 0;
-    
+
+    this.showInput = false;
+
     this.activeTab = 'basic';
   }
 }
