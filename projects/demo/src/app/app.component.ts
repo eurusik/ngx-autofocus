@@ -1,5 +1,4 @@
 import { Component, OnInit, PLATFORM_ID, Inject, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { IosDemoComponent } from './ios-demo/ios-demo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgxAutofocusDirective } from 'ngx-autofocus';
@@ -7,7 +6,7 @@ import { NgxAutofocusDirective } from 'ngx-autofocus';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, NgxAutofocusDirective, IosDemoComponent],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, NgxAutofocusDirective],
   template: `
     <div class="container">
       <h1>NgxAutofocus Demo</h1>
@@ -49,7 +48,6 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
           <p>This tab demonstrates the basic usage of the <code>ngxAutofocus</code> directive:</p>
           <ul>
             <li>The "Name" field automatically receives focus when the page loads because it has the <code>ngxAutofocus</code> directive without parameters</li>
-            <li>Try checking the "Enable conditional autofocus" checkbox to see how the focus moves to the "Message" field</li>
           </ul>
         </div>
         <div class="form-group">
@@ -60,18 +58,6 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
         <div class="form-group">
           <label for="email">Email:</label>
           <input id="email" type="email" [(ngModel)]="email">
-        </div>
-
-        <div class="form-group checkbox-group">
-          <div class="checkbox-container">
-            <input type="checkbox" id="enable-focus" [(ngModel)]="enableFocus">
-            <label for="enable-focus">Enable conditional autofocus:</label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="message">Message (conditional autofocus):</label>
-          <textarea id="message" [ngxAutofocus]="enableFocus" [(ngModel)]="message"></textarea>
         </div>
       </div>
 
@@ -209,60 +195,56 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
 
       <!-- iOS Demo -->
       <div class="tab-content" *ngIf="activeTab === 'ios'">
-        <h2>iOS Support</h2>
+        <h2>iOS Support - Enhanced Keyboard Solution</h2>
         <div class="instructions">
-          <p>This tab demonstrates the iOS-specific autofocus handler:</p>
+          <p>This tab demonstrates our improved iOS-specific autofocus handler:</p>
           <ul>
-            <li>NgxAutofocus includes a special handler for iOS devices that works around iOS focus limitations</li>
-            <li>The iOS handler automatically activates when the library detects an iOS device</li>
-            <li>It uses a special technique with a temporary input element to ensure reliable focusing</li>
-            <li>This solves common iOS issues like keyboard not appearing or focus not working properly</li>
-          </ul>
-        </div>
-
-        <!-- Use the dedicated iOS demo component -->
-        <app-ios-demo></app-ios-demo>
-      </div>
-
-      <!-- Button Click Demo -->
-      <div class="tab-content" *ngIf="activeTab === 'button-click'">
-        <h2>Button Click Demo (iOS Keyboard Fix)</h2>
-        <div class="instructions">
-          <p>This tab demonstrates our solution for iOS keyboard issues with autofocus:</p>
-          <ul>
-            <li>Click the "Show Input Field" button to display an input field with autofocus</li>
-            <li>The input field will automatically receive focus and <strong>show the keyboard on iOS devices</strong></li>
-            <li>This uses a special technique with a temporary input element to ensure keyboard appears</li>
-            <li>Works reliably on iOS Safari where standard autofocus often fails to show keyboard</li>
+            <li>NgxAutofocus now includes an enhanced handler for iOS devices that solves keyboard appearance issues</li>
+            <li>The improved iOS handler creates a temporary input element to trigger the keyboard</li>
+            <li>It uses a combination of focus events and touch simulation to ensure reliable keyboard appearance</li>
+            <li>This solves the common iOS Safari issue where the keyboard doesn't appear when an input is focused</li>
           </ul>
         </div>
 
         <div class="ios-detection" *ngIf="isIOS">
           <div class="ios-badge">iOS Device Detected</div>
-          <p>You're using an iOS device! This demo will show how our solution makes the keyboard appear when the input is focused.</p>
+          <p>You're using an iOS device! The demos below will show how our solution makes the keyboard appear when inputs are focused.</p>
         </div>
 
-        <div class="form-group button-click-demo" id="button-click-container">
-          <button class="primary-btn" (click)="handleButtonClick()" #showInputButton>
-            {{ showInput ? 'Hide Input Field' : 'Show Input Field' }}
-          </button>
-        </div>
+        <!-- Button Click Demo inside iOS section -->
+        <div class="ios-demo-container">
+          <h3>Button Click Demo:</h3>
+          <p>This demo shows how our solution makes the keyboard appear after clicking a button on iOS devices:</p>
 
-        <div class="form-group input-container" *ngIf="showInput">
-          <label for="button-click-input">Input field (with iOS keyboard fix):</label>
-          <input 
-            id="button-click-input" 
-            type="text" 
-            #buttonClickInput
-            ngxAutofocus 
-            placeholder="Keyboard should appear on iOS devices">
+          <div class="form-group button-click-demo" id="button-click-container">
+            <button class="primary-btn" (click)="handleButtonClick()" #showInputButton>
+              {{ showInput ? 'Hide Input Field' : 'Show Input Field' }}
+            </button>
+          </div>
+
+          <div class="form-group input-container" *ngIf="showInput">
+            <label for="button-click-input">Input field (with iOS keyboard fix):</label>
+            <input
+              id="button-click-input"
+              type="text"
+              #buttonClickInput
+              ngxAutofocus
+              placeholder="Keyboard should appear on iOS devices">
+          </div>
+
+          <div class="demo-explanation" *ngIf="showInput">
+            <p><strong>What's happening:</strong> When you click the button, our iOS handler creates a temporary input element, focuses it to trigger the keyboard, and then moves focus to the actual input field.</p>
+          </div>
+
+
         </div>
       </div>
+
+
 
       <div class="actions">
         <button (click)="reset()" class="reset-btn">Reset All</button>
       </div>
-    </div>
   `,
   styles: [`
     :host {
@@ -540,20 +522,20 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       transition: all 0.2s ease;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    
+
     .primary-btn {
       background-color: #4285f4;
       font-size: 16px;
       padding: 14px 24px;
       min-width: 200px;
     }
-    
+
     .button-click-demo {
       display: flex;
       justify-content: center;
       margin: 30px 0;
     }
-    
+
     .input-container {
       max-width: 500px;
       margin: 0 auto;
@@ -564,7 +546,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       transition: all 0.3s ease;
       animation: fadeIn 0.5s ease;
     }
-    
+
     .ios-detection {
       background-color: #fff3cd;
       border: 1px solid #ffeeba;
@@ -575,7 +557,32 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       flex-direction: column;
       align-items: center;
     }
-    
+
+    .ios-demo-container {
+      margin-top: 30px;
+    }
+
+    .ios-demo-container h3 {
+      color: #4285f4;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eaeaea;
+      padding-bottom: 10px;
+    }
+
+    .additional-demos {
+      margin-top: 40px;
+    }
+
+    .demo-explanation {
+      background-color: #e8f0fe;
+      border-left: 4px solid #4285f4;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+
+
     .ios-badge {
       background-color: #ff9500;
       color: white;
@@ -584,7 +591,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       font-weight: bold;
       margin-bottom: 10px;
     }
-    
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -773,14 +780,14 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-    
+
     /* Media queries for responsive design */
     @media (max-width: 768px) {
       .container {
         padding: 15px;
         max-width: 100%;
       }
-      
+
       .tabs {
         position: relative;
         overflow-x: auto;
@@ -791,13 +798,13 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
         padding-bottom: 5px;
         margin-bottom: 20px;
       }
-      
+
       .tabs button {
         flex: 0 0 auto;
         min-width: auto;
         padding: 10px 15px;
       }
-      
+
       .tabs::after {
         content: '';
         position: absolute;
@@ -809,24 +816,24 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
         pointer-events: none;
         z-index: 1;
       }
-      
+
       .handler-comparison {
         flex-direction: column;
       }
-      
+
       .handler-column {
         margin-bottom: 20px;
       }
-      
+
       .form-group {
         margin-bottom: 20px;
       }
-      
+
       .form-group input, .form-group textarea, .form-group select {
         font-size: 16px; /* Prevents iOS zoom on focus */
         padding: 12px;
       }
-      
+
       button:not(.tabs button) {
         padding: 12px 20px;
         width: 100%;
@@ -834,70 +841,70 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
         margin-bottom: 10px;
         font-size: 16px;
       }
-      
+
       .tab-content {
         padding: 15px;
       }
     }
-    
+
     @media (max-width: 480px) {
       .container {
         padding: 10px;
         margin-top: 5px;
         margin-bottom: 5px;
       }
-      
+
       .tabs {
         margin-bottom: 15px;
       }
-      
+
       .tabs button {
         padding: 8px 12px;
         font-size: 13px;
       }
-      
+
       .form-group {
         margin-bottom: 15px;
       }
-      
+
       .form-group label {
         font-size: 14px;
         margin-bottom: 5px;
       }
-      
+
       h1 {
         font-size: 22px;
         margin-bottom: 15px;
       }
-      
+
       h2 {
         font-size: 18px;
         margin-bottom: 10px;
       }
-      
+
       .instructions {
         font-size: 14px;
       }
-      
+
       .instructions ul {
         padding-left: 20px;
       }
-      
+
       .code-examples {
         padding: 10px;
         overflow-x: auto;
       }
-      
+
       .code-examples pre {
         font-size: 12px;
       }
-      
+
       /* Improve touch targets */
       input[type="checkbox"] {
         width: 20px;
         height: 20px;
       }
-      
+
       .checkbox-container label {
         padding-left: 25px;
       }
@@ -917,7 +924,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
 export class AppComponent implements OnInit {
   @ViewChild('showInputButton') showInputButton: ElementRef | undefined;
   @ViewChild('buttonClickInput') buttonClickInput: ElementRef | undefined;
-  
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private renderer: Renderer2
@@ -930,14 +937,13 @@ export class AppComponent implements OnInit {
 
   // Tab navigation
   tabs = [
-    { id: 'button-click', name: 'Button Click' },
+    { id: 'ios', name: 'iOS Support' },
     { id: 'basic', name: 'Basic Usage' },
     { id: 'conditional', name: 'Conditional' },
     { id: 'dynamic', name: 'Dynamic Content' },
-    { id: 'ios', name: 'iOS Support' },
     { id: 'sync', name: 'Synchronous Handler' }
   ];
-  activeTab = 'button-click';
+  activeTab = 'ios';
 
   // Conditional demo fields
   conditionalFocus = false;
@@ -1047,15 +1053,15 @@ export class AppComponent implements OnInit {
   handleButtonClick(): void {
     // Toggle input visibility
     this.showInput = !this.showInput;
-    
+
     if (this.showInput) {
       // If showing input, use the iOS keyboard workaround
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
-      
+
       if (isIOS) {
         // Get container element
         const container = document.getElementById('button-click-container');
-        
+
         if (container) {
           // Create temporary input element
           this.inputHelper = this.renderer.createElement('input') as HTMLInputElement;
@@ -1065,13 +1071,13 @@ export class AppComponent implements OnInit {
           this.inputHelper.style.height = '1px';
           this.inputHelper.style.width = '1px';
           this.inputHelper.style.fontSize = '16px'; // Prevent iOS zoom
-          
+
           // Append to container
           this.renderer.appendChild(container, this.inputHelper);
-          
+
           // Focus on temporary input
           this.inputHelper.focus();
-          
+
           // Dispatch touch event
           try {
             const touchEvent = new TouchEvent('touchstart', {'bubbles': true});
@@ -1081,13 +1087,13 @@ export class AppComponent implements OnInit {
           } catch (e) {
             console.warn('TouchEvent not supported:', e);
           }
-          
+
           // After a delay, focus on the actual input and remove temporary input
           setTimeout(() => {
             if (this.buttonClickInput?.nativeElement) {
               this.buttonClickInput.nativeElement.focus();
             }
-            
+
             // Remove temporary input
             if (this.inputHelper && container && container.contains(this.inputHelper)) {
               this.renderer.removeChild(container, this.inputHelper);
