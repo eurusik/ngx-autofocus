@@ -236,13 +236,13 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
           </ul>
         </div>
 
-        <div class="form-group">
-          <button (click)="showInput = !showInput">
+        <div class="form-group button-click-demo">
+          <button class="primary-btn" (click)="showInput = !showInput">
             {{ showInput ? 'Hide Input Field' : 'Show Input Field' }}
           </button>
         </div>
 
-        <div class="form-group" *ngIf="showInput">
+        <div class="form-group input-container" *ngIf="showInput">
           <label for="button-click-input">Input field:</label>
           <input 
             id="button-click-input" 
@@ -533,6 +533,35 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       transition: all 0.2s ease;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+    
+    .primary-btn {
+      background-color: #4285f4;
+      font-size: 16px;
+      padding: 14px 24px;
+      min-width: 200px;
+    }
+    
+    .button-click-demo {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    .input-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      border-left: 4px solid #4285f4;
+      transition: all 0.3s ease;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     button:not(.tabs button):hover {
       background-color: #3367d6;
@@ -718,6 +747,11 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
     
     /* Media queries for responsive design */
     @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+        max-width: 100%;
+      }
+      
       .tabs {
         position: relative;
         overflow-x: auto;
@@ -726,10 +760,13 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
         -webkit-overflow-scrolling: touch;
         scrollbar-width: thin;
         padding-bottom: 5px;
+        margin-bottom: 20px;
       }
       
       .tabs button {
         flex: 0 0 auto;
+        min-width: auto;
+        padding: 10px 15px;
       }
       
       .tabs::after {
@@ -743,13 +780,46 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
         pointer-events: none;
         z-index: 1;
       }
+      
+      .handler-comparison {
+        flex-direction: column;
+      }
+      
+      .handler-column {
+        margin-bottom: 20px;
+      }
+      
+      .form-group {
+        margin-bottom: 20px;
+      }
+      
+      .form-group input, .form-group textarea, .form-group select {
+        font-size: 16px; /* Prevents iOS zoom on focus */
+        padding: 12px;
+      }
+      
+      button:not(.tabs button) {
+        padding: 12px 20px;
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+      
+      .tab-content {
+        padding: 15px;
+      }
     }
     
     @media (max-width: 480px) {
       .container {
-        padding: 15px;
-        margin-top: 10px;
-        margin-bottom: 10px;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+      
+      .tabs {
+        margin-bottom: 15px;
       }
       
       .tabs button {
@@ -761,12 +831,46 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
         margin-bottom: 15px;
       }
       
+      .form-group label {
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+      
       h1 {
-        font-size: 24px;
+        font-size: 22px;
+        margin-bottom: 15px;
       }
       
       h2 {
-        font-size: 20px;
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      
+      .instructions {
+        font-size: 14px;
+      }
+      
+      .instructions ul {
+        padding-left: 20px;
+      }
+      
+      .code-examples {
+        padding: 10px;
+        overflow-x: auto;
+      }
+      
+      .code-examples pre {
+        font-size: 12px;
+      }
+      
+      /* Improve touch targets */
+      input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+      }
+      
+      .checkbox-container label {
+        padding-left: 25px;
       }
     }
 
