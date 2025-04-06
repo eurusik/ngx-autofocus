@@ -6,7 +6,10 @@
   "routes": [
     { "handle": "filesystem" },
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*).(js|css|ico|json)", "dest": "/$1.$2" },
+    { "src": "/(.*)\\.(js|css|ico|json)", "dest": "/$1.$2" },
     { "src": "/(.*)", "dest": "/index.html" }
+  ],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
