@@ -1027,6 +1027,7 @@ export class AppComponent implements OnInit {
   }
 
   reset(): void {
+    // Reset all form values
     this.name = '';
     this.email = '';
     this.message = '';
@@ -1047,7 +1048,8 @@ export class AppComponent implements OnInit {
     this.showInput = false;
     this.inputHelper = null;
 
-    this.activeTab = 'button-click';
+    // Set active tab to the first tab in the list
+    this.activeTab = 'ios';
   }
 
   handleButtonClick(): void {
