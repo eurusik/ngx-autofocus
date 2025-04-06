@@ -791,14 +791,14 @@ export class AppComponent implements OnInit {
 
   // Tab navigation
   tabs = [
+    { id: 'button-click', name: 'Button Click' },
     { id: 'basic', name: 'Basic Usage' },
     { id: 'conditional', name: 'Conditional' },
     { id: 'dynamic', name: 'Dynamic Content' },
     { id: 'ios', name: 'iOS Support' },
-    { id: 'sync', name: 'Synchronous Handler' },
-    { id: 'button-click', name: 'Button Click' }
+    { id: 'sync', name: 'Synchronous Handler' }
   ];
-  activeTab = 'basic';
+  activeTab = 'button-click';
 
   // Conditional demo fields
   conditionalFocus = false;
