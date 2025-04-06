@@ -1,15 +1,8 @@
 {
   "framework": "angular",
-  "buildCommand": "npm run build:demo",
-  "outputDirectory": "dist/demo",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/demo/browser",
   "installCommand": "npm install",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*)\\.(js|css|ico|json)", "dest": "/$1.$2" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ],
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  "devCommand": "npm run start",
+  "devPort": 4200
 }
