@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve demo",
     "build": "ng build demo",
+    "build:demo": "ng build demo",
     "watch": "ng build demo --watch --configuration development",
     "test": "jest",
     "test:watch": "jest --watch",
