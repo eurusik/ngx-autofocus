@@ -1,6 +1,6 @@
 {
   "name": "@eurusik/ngx-autofocus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Intelligent autofocus directive for Angular that works everywhere — even on iOS!",
   "keywords": ["angular", "autofocus", "focus", "ios", "directive"],
   "author": "eurusik",
