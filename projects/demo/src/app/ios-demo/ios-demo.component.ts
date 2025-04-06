@@ -279,7 +279,27 @@ export class IosDemoComponent {
     private readonly renderer: Renderer2,
     private readonly ngZone: NgZone
   ) {
-    this.isIosDevice = false;
+    // Check if running in browser and detect iOS
+    if (this.document.defaultView) {
+      // Get user agent
+      const userAgent = this.document.defaultView.navigator.userAgent.toLowerCase();
+      const platform = this.document.defaultView.navigator.platform;
+      
+      // Multiple checks for iOS detection
+      const isIPhoneOrIPod = /iphone|ipod/.test(userAgent);
+      const isIPad = /ipad/.test(userAgent) || 
+                    (userAgent.includes('mac') && 'ontouchend' in document);
+      const isIOS = /iPad|iPhone|iPod/.test(platform) || 
+                   isIPhoneOrIPod || 
+                   isIPad;
+                   
+      this.isIosDevice = isIOS;
+      
+      // Log detection info for debugging
+      console.log('User Agent:', userAgent);
+      console.log('Platform:', platform);
+      console.log('Is iOS Device:', this.isIosDevice);
+    }
   }
   
   toggleIosSimulation(): void {
