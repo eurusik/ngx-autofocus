@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "build:demo": "ng build demo --configuration production",
-    "watch": "ng build --watch --configuration development",
+    "start": "ng serve demo",
+    "build": "ng build demo",
+    "watch": "ng build demo --watch --configuration development",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
