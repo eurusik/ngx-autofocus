@@ -1,6 +1,6 @@
 import type {BooleanInput} from '@angular/cdk/coercion';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import type {AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
+import type {AfterViewInit, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
 import {DestroyRef, Directive, inject, Input} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {timer} from 'rxjs';
@@ -16,7 +16,7 @@ import {
     selector: '[ngxAutofocus]',
     providers: NGX_AUTOFOCUS_PROVIDERS,
 })
-export class NgxAutofocusDirective implements AfterViewInit, OnChanges {
+export class NgxAutofocusDirective implements AfterViewInit, OnChanges, OnDestroy {
     private readonly handler = inject(NGX_AUTOFOCUS_HANDLER);
     private readonly options = inject(NGX_AUTOFOCUS_OPTIONS);
     private readonly destroyRef = inject(DestroyRef);
@@ -49,6 +49,12 @@ export class NgxAutofocusDirective implements AfterViewInit, OnChanges {
             timer(this.options.delay)
                 .pipe(takeUntilDestroyed(this.destroyRef))
                 .subscribe(() => this.handler.setFocus());
+        }
+    }
+    
+    public ngOnDestroy(): void {
+        if (this.handler && typeof (this.handler as any).cleanup === 'function') {
+            (this.handler as any).cleanup();
         }
     }
 }

@@ -25,12 +25,18 @@ export interface NgxAutofocusOptions {
      * Use NaN for synchronous focus (no delay)
      */
     readonly delay: number;
-    
+
+    /**
+     * Additional delay for iOS focus handling (in milliseconds)
+     * This is used specifically for iOS devices to handle keyboard appearance
+     */
+    readonly focusDelay?: number;
+
     /**
      * Query selector to find focusable elements inside the host element
      */
     readonly query: string;
-    
+
     /**
      * Whether to prevent scrolling when focusing
      */
@@ -42,6 +48,7 @@ export interface NgxAutofocusOptions {
  */
 export const NGX_AUTOFOCUS_DEFAULT_OPTIONS: NgxAutofocusOptions = {
     delay: NaN, // NaN = no delay/sync
+    focusDelay: 0, // No additional delay for iOS focus handling
     query: 'input, textarea, select, [contenteditable]',
     preventScroll: false,
 };
@@ -94,8 +101,8 @@ export const NGX_AUTOFOCUS_PROVIDERS: Provider[] = [
     {
         provide: NGX_AUTOFOCUS_HANDLER,
         useFactory: (
-            elementRef: ElementRef, 
-            ngZone: NgZone, 
+            elementRef: ElementRef,
+            ngZone: NgZone,
             renderer: Renderer2,
             document: Document,
             isIos: boolean,
@@ -103,14 +110,14 @@ export const NGX_AUTOFOCUS_PROVIDERS: Provider[] = [
         ) => {
             if (isIos && document.defaultView) {
                 return new NgxIosAutofocusHandler(
-                    elementRef, 
-                    renderer, 
-                    ngZone, 
-                    document.defaultView, 
+                    elementRef,
+                    renderer,
+                    ngZone,
+                    document.defaultView,
                     options
                 );
             }
-            
+
             return new NgxDefaultAutofocusHandler(elementRef, ngZone, options);
         },
         deps: [ElementRef, NgZone, Renderer2, DOCUMENT, NGX_IS_IOS, NGX_AUTOFOCUS_OPTIONS],

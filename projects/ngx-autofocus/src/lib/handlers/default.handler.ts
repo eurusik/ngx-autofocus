@@ -48,16 +48,16 @@ export class NgxDefaultAutofocusHandler extends AbstractNgxAutofocusHandler {
      */
     private waitForAnimationsAndFocus(): void {
         const delay = this.options.delay || 0;
-        
+
         const delayTimer$ = timer(Number.isNaN(delay) ? 0 : delay || TIMEOUT);
-        
+
         const animationCheck$ = this.createAnimationFrameCheck();
-        
+
         race(delayTimer$, animationCheck$).subscribe(() => {
             this.element.focus({preventScroll: this.options.preventScroll});
         });
     }
-    
+
     /**
      * Create an observable that completes when animations are done
      */
@@ -74,9 +74,9 @@ export class NgxDefaultAutofocusHandler extends AbstractNgxAutofocusHandler {
      * Check if an element is focusable
      */
     private isFocusable(element: HTMLElement): boolean {
-        return element && 
-               !element.hasAttribute('disabled') && 
-               !element.hasAttribute('hidden') && 
+        return element &&
+               !element.hasAttribute('disabled') &&
+               !element.hasAttribute('hidden') &&
                element.tabIndex !== -1;
     }
 }

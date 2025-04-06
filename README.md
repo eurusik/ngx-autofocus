@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <b>Intelligent autofocus for Angular that works everywhere — even on iOS!</b>
+  <b>Intelligent autofocus for Angular that works everywhere with special iOS support!</b>
 </p>
 
 <p align="center">
@@ -17,7 +17,7 @@
 ## ✨ Features
 
 - 🚀 **Simple to use** — just add the `ngxAutofocus` directive to any element
-- 📱 **Works on iOS** — special iOS handler solves common focus issues
+- 📱 **iOS Support** — special iOS handler improves focus behavior (note: due to WebKit limitations, keyboard may require a tap to appear)
 - 🎯 **Smart focusing** — supports conditional focus and dynamic content
 - 🎭 **Animation aware** — automatically waits for animations to complete
 - ⚡ **Synchronous mode** — optional immediate focus without delays
@@ -172,6 +172,8 @@ export class MyCustomHandler extends AbstractNgxAutofocusHandler {
 ### Online Demo
 
 View the live demo at [https://ngx-autofocus.vercel.app/](https://ngx-autofocus.vercel.app/)
+
+> **Note for iOS users**: Due to a [WebKit limitation](https://bugs.webkit.org/show_bug.cgi?id=243416), programmatic focus on iOS doesn't automatically trigger the keyboard. Elements will receive focus correctly, but you'll need to tap once to make the keyboard appear. Apple is working on fixing this in future iOS versions.
 
 ### Local Development
 

@@ -20,7 +20,6 @@
     "baseUrl": "./",
     "paths": {
       "ngx-autofocus": [
-        "./dist/ngx-autofocus",
         "./projects/ngx-autofocus/src/public-api.ts"
       ]
     }
