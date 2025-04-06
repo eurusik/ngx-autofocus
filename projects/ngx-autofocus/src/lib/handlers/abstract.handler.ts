@@ -6,7 +6,7 @@ import type {NgxAutofocusHandler, NgxAutofocusOptions} from '../autofocus.option
  * Abstract base class for autofocus handlers
  */
 export abstract class AbstractNgxAutofocusHandler implements NgxAutofocusHandler {
-    constructor(
+    protected constructor(
         protected readonly el: ElementRef<HTMLElement>,
         protected readonly options: NgxAutofocusOptions,
     ) {}
