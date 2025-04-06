@@ -105,39 +105,31 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
 
       <!-- Dynamic Content Demo -->
       <div class="tab-content" *ngIf="activeTab === 'dynamic'">
-        <h2>Dynamic Content with iOS Keyboard Support</h2>
+        <h2>Dynamic Content</h2>
         <div class="instructions">
-          <p>This tab demonstrates how our iOS keyboard solution works with dynamically created elements:</p>
+          <p>This tab demonstrates how autofocus works with dynamically created elements:</p>
           <ul>
             <li>Click the "Add New Input" button to add a new input field</li>
-            <li>Each new field automatically receives focus <strong>AND shows the keyboard on iOS devices</strong></li>
-            <li>Our special iOS handler ensures the keyboard appears for each new dynamically created input</li>
-            <li>This solves a common iOS Safari issue where keyboards don't appear for dynamically created inputs</li>
+            <li>Notice how each new field automatically receives focus when added</li>
+            <li>This is achieved by using <code>[ngxAutofocus]="i === dynamicInputs.length - 1"</code> on each input</li>
+            <li>Use "Clear All" to remove all fields and start over</li>
           </ul>
         </div>
-        
-        <div class="ios-detection" *ngIf="isIOS">
-          <div class="ios-badge">iOS Device Detected</div>
-          <p>You're using an iOS device! Each time you add a new input below, the keyboard should automatically appear.</p>
-        </div>
+        <p>This demo shows autofocus with dynamically created elements.</p>
 
-        <div class="form-group dynamic-buttons">
-          <button class="primary-btn" (click)="addDynamicInput()">Add New Input</button>
+        <div class="form-group">
+          <button (click)="addDynamicInput()">Add New Input</button>
           <button (click)="clearDynamicInputs()">Clear All</button>
         </div>
 
         <div class="dynamic-container">
           <div class="form-group" *ngFor="let input of dynamicInputs; let i = index">
             <label for="dynamic-{{i}}">Input {{i + 1}}:</label>
-            <div class="input-with-badge">
-              <input
-                id="dynamic-{{i}}"
-                type="text"
-                [ngxAutofocus]="i === dynamicInputs.length - 1"
-                [(ngModel)]="input.value"
-                placeholder="Keyboard should appear on iOS">
-              <span class="new-badge" *ngIf="i === dynamicInputs.length - 1">New</span>
-            </div>
+            <input
+              id="dynamic-{{i}}"
+              type="text"
+              [ngxAutofocus]="i === dynamicInputs.length - 1"
+              [(ngModel)]="input.value">
           </div>
         </div>
       </div>
@@ -644,35 +636,7 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       border: 1px solid #eaeaea;
     }
 
-    .dynamic-buttons {
-      display: flex;
-      gap: 10px;
-      margin: 20px 0;
-    }
-    
-    .input-with-badge {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-    
-    .new-badge {
-      position: absolute;
-      right: -40px;
-      background-color: #4285f4;
-      color: white;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: bold;
-      animation: pulse 1.5s infinite;
-    }
-    
-    @keyframes pulse {
-      0% { opacity: 0.6; }
-      50% { opacity: 1; }
-      100% { opacity: 0.6; }
-    }
+
 
     .platform-info {
       display: flex;
@@ -1008,11 +972,6 @@ export class AppComponent implements OnInit {
 
   addDynamicInput(): void {
     this.dynamicInputs.push({ value: '' });
-    // Add a small delay to allow Angular to render the new input before focusing
-    setTimeout(() => {
-      // The ngxAutofocus directive will handle the focus and iOS keyboard
-      console.log('Added new dynamic input with iOS keyboard support');
-    }, 50);
   }
 
   clearDynamicInputs(): void {
