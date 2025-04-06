@@ -151,4 +151,4 @@ MIT
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please create an issue or pull request on Git clone https://github.com/eurusik/ngx-autofocus.git
+Contributions are welcome! Please create an issue or pull request on GitHub: https://github.com/eurusik/ngx-autofocus
