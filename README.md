@@ -10,6 +10,10 @@
   <b>Intelligent autofocus for Angular that works everywhere — even on iOS!</b>
 </p>
 
+<p align="center">
+  <a href="https://ngx-autofocus.vercel.app/" target="_blank">📱 View Live Demo</a>
+</p>
+
 ## ✨ Features
 
 - 🚀 **Simple to use** — just add the `ngxAutofocus` directive to any element
@@ -164,6 +168,12 @@ export class MyCustomHandler extends AbstractNgxAutofocusHandler {
 ```
 
 ## 🌟 Demo
+
+### Online Demo
+
+View the live demo at [https://ngx-autofocus.vercel.app/](https://ngx-autofocus.vercel.app/)
+
+### Local Development
 
 The project includes a demonstration application showcasing various NgxAutofocus scenarios:
 
