@@ -1,4 +1,4 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { IosDemoComponent } from './ios-demo/ios-demo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -226,29 +226,36 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
 
       <!-- Button Click Demo -->
       <div class="tab-content" *ngIf="activeTab === 'button-click'">
-        <h2>Button Click Demo</h2>
+        <h2>Button Click Demo (iOS Keyboard Fix)</h2>
         <div class="instructions">
-          <p>This tab demonstrates how to show an input field with autofocus after clicking a button:</p>
+          <p>This tab demonstrates our solution for iOS keyboard issues with autofocus:</p>
           <ul>
-            <li>Click the "Show Input Field" button to display an input field</li>
-            <li>The input field will automatically receive focus as soon as it appears</li>
-            <li>This is useful for forms that are conditionally displayed based on user interaction</li>
+            <li>Click the "Show Input Field" button to display an input field with autofocus</li>
+            <li>The input field will automatically receive focus and <strong>show the keyboard on iOS devices</strong></li>
+            <li>This uses a special technique with a temporary input element to ensure keyboard appears</li>
+            <li>Works reliably on iOS Safari where standard autofocus often fails to show keyboard</li>
           </ul>
         </div>
 
-        <div class="form-group button-click-demo">
-          <button class="primary-btn" (click)="showInput = !showInput">
+        <div class="ios-detection" *ngIf="isIOS">
+          <div class="ios-badge">iOS Device Detected</div>
+          <p>You're using an iOS device! This demo will show how our solution makes the keyboard appear when the input is focused.</p>
+        </div>
+
+        <div class="form-group button-click-demo" id="button-click-container">
+          <button class="primary-btn" (click)="handleButtonClick()" #showInputButton>
             {{ showInput ? 'Hide Input Field' : 'Show Input Field' }}
           </button>
         </div>
 
         <div class="form-group input-container" *ngIf="showInput">
-          <label for="button-click-input">Input field:</label>
+          <label for="button-click-input">Input field (with iOS keyboard fix):</label>
           <input 
             id="button-click-input" 
             type="text" 
+            #buttonClickInput
             ngxAutofocus 
-            placeholder="This input received focus automatically">
+            placeholder="Keyboard should appear on iOS devices">
         </div>
       </div>
 
@@ -556,6 +563,26 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
       border-left: 4px solid #4285f4;
       transition: all 0.3s ease;
       animation: fadeIn 0.5s ease;
+    }
+    
+    .ios-detection {
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .ios-badge {
+      background-color: #ff9500;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
     
     @keyframes fadeIn {
@@ -886,7 +913,13 @@ import &#123; NgxAutofocusDirective &#125; from 'ngx-autofocus';
   `]
 })
 export class AppComponent implements OnInit {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  @ViewChild('showInputButton') showInputButton: ElementRef | undefined;
+  @ViewChild('buttonClickInput') buttonClickInput: ElementRef | undefined;
+  
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private renderer: Renderer2
+  ) {}
   // Basic demo fields
   name = '';
   email = '';
@@ -915,6 +948,8 @@ export class AppComponent implements OnInit {
 
   // Button click demo fields
   showInput = false;
+  inputHelper: HTMLInputElement | null = null;
+  isIOS = false;
 
   // Synchronous handler demo fields
   defaultInput = '';
@@ -925,6 +960,8 @@ export class AppComponent implements OnInit {
   syncFocusTime = 0;
 
   ngOnInit(): void {
+    // Detect if user is on iOS device
+    this.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
   }
 
   toggleConditionalFocus(): void {
@@ -1000,7 +1037,63 @@ export class AppComponent implements OnInit {
     this.syncFocusTime = 0;
 
     this.showInput = false;
+    this.inputHelper = null;
 
-    this.activeTab = 'basic';
+    this.activeTab = 'button-click';
+  }
+
+  handleButtonClick(): void {
+    // Toggle input visibility
+    this.showInput = !this.showInput;
+    
+    if (this.showInput) {
+      // If showing input, use the iOS keyboard workaround
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+      
+      if (isIOS) {
+        // Get container element
+        const container = document.getElementById('button-click-container');
+        
+        if (container) {
+          // Create temporary input element
+          this.inputHelper = this.renderer.createElement('input') as HTMLInputElement;
+          this.inputHelper.type = 'text';
+          this.inputHelper.style.position = 'absolute';
+          this.inputHelper.style.opacity = '0';
+          this.inputHelper.style.height = '1px';
+          this.inputHelper.style.width = '1px';
+          this.inputHelper.style.fontSize = '16px'; // Prevent iOS zoom
+          
+          // Append to container
+          this.renderer.appendChild(container, this.inputHelper);
+          
+          // Focus on temporary input
+          this.inputHelper.focus();
+          
+          // Dispatch touch event
+          try {
+            const touchEvent = new TouchEvent('touchstart', {'bubbles': true});
+            if (this.showInputButton?.nativeElement) {
+              this.showInputButton.nativeElement.dispatchEvent(touchEvent);
+            }
+          } catch (e) {
+            console.warn('TouchEvent not supported:', e);
+          }
+          
+          // After a delay, focus on the actual input and remove temporary input
+          setTimeout(() => {
+            if (this.buttonClickInput?.nativeElement) {
+              this.buttonClickInput.nativeElement.focus();
+            }
+            
+            // Remove temporary input
+            if (this.inputHelper && container && container.contains(this.inputHelper)) {
+              this.renderer.removeChild(container, this.inputHelper);
+              this.inputHelper = null;
+            }
+          }, 180);
+        }
+      }
+    }
   }
 }
