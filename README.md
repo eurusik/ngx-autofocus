@@ -33,7 +33,7 @@ yarn add ngx-autofocus
 
 ### Compatibility
 
-This library is compatible with Angular 19.2.0 and above.
+This library is compatible with Angular 18.0.0 and above. It uses modern Angular features including the new Input API introduced in Angular 18.
 
 ## 🚀 Quick Start
 
